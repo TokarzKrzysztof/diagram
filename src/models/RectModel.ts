@@ -1,4 +1,4 @@
-export interface RectNode {
+export interface RectModel {
   top: number;
   left: number;
   width: number;
