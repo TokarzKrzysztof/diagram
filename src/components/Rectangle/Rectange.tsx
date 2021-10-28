@@ -1,7 +1,8 @@
-import { CSSProperties, FC, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import styled from "styled-components";
-import { RectConfig } from "../../models/RectConfig";
+import { RectNode } from "../../models/RectConfig";
 import { ResizeDot } from "./ResizeDot/ResizeDot";
+import { TextNode } from "./TextNode/TextNode";
 import { DotPlacement } from "./types";
 
 const StyledRectangle = styled.div<{ active: boolean }>`
@@ -16,14 +17,16 @@ interface Props {}
 
 export const Rectangle: FC<Props> = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const [config, setConfig] = useState<RectConfig>({
+  const [config, setConfig] = useState<RectNode>({
     top: 0,
     left: 0,
     width: 100,
     height: 50,
+    text: "Test",
   });
   const [isActive, setIsActive] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
+  const [isEditText, setIsEditText] = useState(false);
 
   const handleResize = (e: MouseEvent, placement: DotPlacement) => {
     if (placement === "top-left") {
@@ -65,9 +68,7 @@ export const Rectangle: FC<Props> = () => {
     }
   };
 
-  const handleDragAndDrop = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
+  const handleDrag = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setConfig((prev) => {
       return {
         ...prev,
@@ -75,6 +76,11 @@ export const Rectangle: FC<Props> = () => {
         left: prev.left + e.movementX,
       };
     });
+  };
+
+  const handleTextEdit = (value: string) => {
+    setConfig({ ...config, text: value });
+    setIsEditText(false);
   };
 
   return (
@@ -88,9 +94,16 @@ export const Rectangle: FC<Props> = () => {
       }}
       onMouseUp={() => setIsMouseDown(false)}
       onMouseMove={(e) => {
-        if (isMouseDown) handleDragAndDrop(e);
+        if (isMouseDown) handleDrag(e);
       }}
+      onDoubleClick={() => setIsEditText(!isEditText)}
     >
+      <TextNode
+        value={config.text}
+        isEditing={isEditText}
+        onAccept={handleTextEdit}
+      />
+
       {isActive && !isMouseDown && (
         <>
           <ResizeDot placement={"top-left"} onResize={handleResize} />
