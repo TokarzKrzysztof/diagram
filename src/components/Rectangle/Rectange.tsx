@@ -25,14 +25,43 @@ export const Rectangle: FC<Props> = () => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   console.log("render");
 
-  const handleDrop = () => {};
+  const handleResize = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    if (!ref.current) return;
+    // let resizeY = e.pageY - (ref.current.offsetTop + config.height);
+    // let resizeX = e.pageX - (ref.current.offsetLeft + config.width);
+    // console.log(resizeY);
+    // console.log(resizeX);
+    console.log("1.", `x - ${ref.current.offsetLeft}`, `y - ${ref.current.offsetHeight}`)
+    console.log("2.", `x - ${ref.current.offsetLeft + config.width}`, `y - ${ref.current.offsetHeight}`)
+    console.log("3.", `x - ${ref.current.offsetLeft}`, `y - ${ref.current.offsetHeight + config.height}`)
+    console.log("4.", `x - ${ref.current.offsetLeft + config.width}`, `y - ${ref.current.offsetHeight + config.height}`)
+
+    // if (resizeY < 0) resizeY = Math.abs(resizeY + config.height);
+    // if (resizeX < 0) resizeX = Math.abs(resizeX + config.width);
+    // console.log(resizeY)
+    // console.log(ref.current.offsetTop, ref.current.offsetLeft);
+    // console.log(e.pageY, e.pageX)
+    // console.log(e.pageY - (ref.current.offsetTop + config.height));
+    // const differenceY = e.pageY - ref.current.offsetTop;
+    // const differenceX = e.pageX - ref.current.offsetLeft;
+    // console.log(differenceY)
+    // console.log(differenceX)
+    // console.log(ref.current.offsetLeft);
+    //  setConfig((prev) => {
+    //   return {
+    //     ...prev,
+    //     width: prev.width + resizeX,
+    //     height: prev.height + resizeY,
+    //   };
+    // });
+  };
 
   const handleDragAndDrop = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     if (!ref.current) return;
-    console.log(ref.current.offsetTop);
-    console.log(ref.current.offsetLeft);
+    // console.log(ref.current.offsetTop);
+    // console.log(ref.current.offsetLeft);
     setConfig((prev) => {
       return {
         ...prev,
@@ -55,9 +84,8 @@ export const Rectangle: FC<Props> = () => {
       onMouseMove={(e) => {
         if (isMouseDown) handleDragAndDrop(e);
       }}
-    //   onClick={() => setIsActive(!isActive)}
     >
-      {isActive && !isMouseDown && <ResizeDots onResize={() => {}} />}
+      {isActive && !isMouseDown && <ResizeDots onResize={handleResize} />}
     </StyledRectangle>
   );
 };

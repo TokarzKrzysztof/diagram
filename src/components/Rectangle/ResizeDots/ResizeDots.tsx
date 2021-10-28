@@ -1,58 +1,48 @@
-import { FC, useState } from "react";
-import styled from "styled-components";
-import { RectConfig } from "../../../models/RectConfig";
-
-const StyledResizeDot = styled.span<{}>`
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  background-color: white;
-  border-radius: 50%;
-`;
+import { FC } from "react";
+import { ResizeDot } from "./ResizeDot/ResizeDot";
 
 interface Props {
-  onResize: (size: any) => void;
+  onResize: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
 }
 
-export const ResizeDots: FC<Props> = () => {
-  const [isMouseDown, setIsMouseDown] = useState(false);
-
-  const handleResize = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    console.log(e)
-    // console.log("x", e.pageX)
-    // console.log("y", e.pageY)
-  };
-
+export const ResizeDots: FC<Props> = ({ onResize }) => {
   return (
     <>
-      <StyledResizeDot
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          setIsMouseDown(true);
-        }}
-        onMouseUp={(e) => {
-          e.stopPropagation();
-          setIsMouseDown(false);
-        }}
-        onMouseMove={(e) => {
-          e.stopPropagation();
-          handleResize(e);
-        }}
-        style={{
+      <ResizeDot
+        positionStyle={{
           top: 0,
           left: 0,
           transform: "translate(-50%, -50%)",
           cursor: "nw-resize",
         }}
+        onResize={onResize}
       />
-      <StyledResizeDot
-        style={{ top: 0, right: 0, transform: "translate(50%, -50%)" }}
+      <ResizeDot
+        positionStyle={{
+          top: 0,
+          right: 0,
+          transform: "translate(50%, -50%)",
+          cursor: "ne-resize",
+        }}
+        onResize={onResize}
       />
-      <StyledResizeDot
-        style={{ bottom: 0, left: 0, transform: "translate(-50%, 50%)" }}
+      <ResizeDot
+        positionStyle={{
+          bottom: 0,
+          left: 0,
+          transform: "translate(-50%, 50%)",
+          cursor: "sw-resize",
+        }}
+        onResize={onResize}
       />
-      <StyledResizeDot
-        style={{ bottom: 0, right: 0, transform: "translate(50%, 50%)" }}
+      <ResizeDot
+        positionStyle={{
+          bottom: 0,
+          right: 0,
+          transform: "translate(50%, 50%)",
+          cursor: "se-resize",
+        }}
+        onResize={onResize}
       />
     </>
   );
