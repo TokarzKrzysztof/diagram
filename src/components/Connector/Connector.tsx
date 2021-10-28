@@ -2,8 +2,9 @@ import { FC, useState } from "react";
 import styled from "styled-components";
 import { ConModel } from "../../models/ConModel";
 import { Dragable } from "../shared/Dragable/Dragable";
+import { ConResizeDots } from "./ConResizeDots/ConResizeDots";
 
-const StyledDiv = styled.div`
+const StyledConnector = styled.div`
   height: 10px;
 
   ::before {
@@ -34,6 +35,7 @@ export const Connector: FC<Props> = () => {
     top: 100,
     left: 200,
     width: 100,
+    rotate: 0,
   });
   const [isActive, setIsActive] = useState(false);
 
@@ -42,7 +44,7 @@ export const Connector: FC<Props> = () => {
       return { ...prev, top, left };
     });
   };
-
+  console.log(config.rotate)
   return (
     <Dragable
       top={config.top}
@@ -50,7 +52,11 @@ export const Connector: FC<Props> = () => {
       onUpdatePosition={handleUpdatePosition}
       onMouseDown={() => setIsActive(true)}
     >
-      <StyledDiv style={config}></StyledDiv>
+      <StyledConnector
+        style={{ width: config.width, transform: `rotate(${config.rotate}deg)`, transformOrigin: "left" }}
+      >
+        {isActive && <ConResizeDots onSetConfig={setConfig} />}
+      </StyledConnector>
     </Dragable>
   );
 };

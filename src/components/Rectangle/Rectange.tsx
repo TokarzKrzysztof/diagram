@@ -43,7 +43,7 @@ export const Rectangle: FC<Props> = () => {
     >
       <StyledRectangle
         ref={ref}
-        style={config}
+        style={{ width: config.width, height: config.height }}
         onDoubleClick={() => setIsEditText(!isEditText)}
       >
         <TextNode
