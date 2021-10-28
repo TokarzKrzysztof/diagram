@@ -1,7 +1,8 @@
 import { CSSProperties, FC, useRef, useState } from "react";
 import styled from "styled-components";
 import { RectConfig } from "../../models/RectConfig";
-import { ResizeDots } from "./ResizeDots/ResizeDots";
+import { ResizeDot } from "./ResizeDot/ResizeDot";
+import { DotPlacement } from "./types";
 
 const StyledRectangle = styled.div<{ active: boolean }>`
   position: absolute;
@@ -23,45 +24,50 @@ export const Rectangle: FC<Props> = () => {
   });
   const [isActive, setIsActive] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
-  console.log("render");
 
-  const handleResize = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    if (!ref.current) return;
-    // let resizeY = e.pageY - (ref.current.offsetTop + config.height);
-    // let resizeX = e.pageX - (ref.current.offsetLeft + config.width);
-    // console.log(resizeY);
-    // console.log(resizeX);
-    console.log("1.", `x - ${ref.current.offsetLeft}`, `y - ${ref.current.offsetHeight}`)
-    console.log("2.", `x - ${ref.current.offsetLeft + config.width}`, `y - ${ref.current.offsetHeight}`)
-    console.log("3.", `x - ${ref.current.offsetLeft}`, `y - ${ref.current.offsetHeight + config.height}`)
-    console.log("4.", `x - ${ref.current.offsetLeft + config.width}`, `y - ${ref.current.offsetHeight + config.height}`)
-
-    // if (resizeY < 0) resizeY = Math.abs(resizeY + config.height);
-    // if (resizeX < 0) resizeX = Math.abs(resizeX + config.width);
-    // console.log(resizeY)
-    // console.log(ref.current.offsetTop, ref.current.offsetLeft);
-    // console.log(e.pageY, e.pageX)
-    // console.log(e.pageY - (ref.current.offsetTop + config.height));
-    // const differenceY = e.pageY - ref.current.offsetTop;
-    // const differenceX = e.pageX - ref.current.offsetLeft;
-    // console.log(differenceY)
-    // console.log(differenceX)
-    // console.log(ref.current.offsetLeft);
-    //  setConfig((prev) => {
-    //   return {
-    //     ...prev,
-    //     width: prev.width + resizeX,
-    //     height: prev.height + resizeY,
-    //   };
-    // });
+  const handleResize = (e: MouseEvent, placement: DotPlacement) => {
+    if (placement === "top-left") {
+      setConfig((prev) => {
+        return {
+          ...prev,
+          width: prev.width - e.movementX,
+          height: prev.height - e.movementY,
+          top: prev.top + e.movementY,
+          left: prev.left + e.movementX,
+        };
+      });
+    } else if (placement === "top-right") {
+      setConfig((prev) => {
+        return {
+          ...prev,
+          width: prev.width + e.movementX,
+          height: prev.height - e.movementY,
+          top: prev.top + e.movementY,
+        };
+      });
+    } else if (placement === "bottom-left") {
+      setConfig((prev) => {
+        return {
+          ...prev,
+          width: prev.width - e.movementX,
+          height: prev.height + e.movementY,
+          left: prev.left + e.movementX,
+        };
+      });
+    } else {
+      setConfig((prev) => {
+        return {
+          ...prev,
+          width: prev.width + e.movementX,
+          height: prev.height + e.movementY,
+        };
+      });
+    }
   };
 
   const handleDragAndDrop = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    if (!ref.current) return;
-    // console.log(ref.current.offsetTop);
-    // console.log(ref.current.offsetLeft);
     setConfig((prev) => {
       return {
         ...prev,
@@ -85,7 +91,14 @@ export const Rectangle: FC<Props> = () => {
         if (isMouseDown) handleDragAndDrop(e);
       }}
     >
-      {isActive && !isMouseDown && <ResizeDots onResize={handleResize} />}
+      {isActive && !isMouseDown && (
+        <>
+          <ResizeDot placement={"top-left"} onResize={handleResize} />
+          <ResizeDot placement={"top-right"} onResize={handleResize} />
+          <ResizeDot placement={"bottom-left"} onResize={handleResize} />
+          <ResizeDot placement={"bottom-right"} onResize={handleResize} />
+        </>
+      )}
     </StyledRectangle>
   );
 };
