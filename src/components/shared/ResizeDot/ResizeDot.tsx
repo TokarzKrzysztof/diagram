@@ -1,21 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 
-const StyledResizeDot = styled.span<{}>`
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  background-color: white;
-  border-radius: 50%;
-`;
-
-interface Props {
+interface Props extends React.SVGProps<SVGCircleElement> {
   onResize: (e: MouseEvent) => void;
-  style: React.CSSProperties;
-  dotRef?: React.RefObject<HTMLSpanElement>;
 }
 
-export const ResizeDot: FC<Props> = ({ onResize, style, dotRef }) => {
+export const ResizeDot: FC<Props> = ({ onResize, ...props }) => {
   const [isMouseDown, setIsMouseDown] = useState(false);
 
   useEffect(() => {
@@ -41,13 +31,14 @@ export const ResizeDot: FC<Props> = ({ onResize, style, dotRef }) => {
   }, []);
 
   return (
-    <StyledResizeDot
-      ref={dotRef}
+    <circle
+      fill={"white"}
+      r={8}
       onMouseDown={(e) => {
         e.stopPropagation();
         setIsMouseDown(true);
       }}
-      style={style}
+      {...props}
     />
   );
 };

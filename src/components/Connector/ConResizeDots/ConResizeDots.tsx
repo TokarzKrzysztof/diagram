@@ -89,7 +89,6 @@ export const ConResizeDots: FC<Props> = ({ onSetConfig, connectorRef }) => {
   return (
     <>
       <ResizeDot
-        dotRef={startDotRef}
         onResize={(e) => handleResize(e, "start")}
         style={{
           top: "50%",
@@ -99,7 +98,6 @@ export const ConResizeDots: FC<Props> = ({ onSetConfig, connectorRef }) => {
         }}
       />
       <ResizeDot
-        dotRef={endDotRef}
         onResize={(e) => handleResize(e, "end")}
         style={{
           top: "50%",

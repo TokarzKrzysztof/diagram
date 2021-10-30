@@ -1,41 +1,16 @@
 import { FC, useRef, useState } from "react";
-import styled from "styled-components";
 import { ConModel } from "../../models/ConModel";
+import { RectResizeDots } from "../Rectangle/RectResizeDots/RectResizeDots";
 import { Dragable } from "../shared/Dragable/Dragable";
-import { ConResizeDots } from "./ConResizeDots/ConResizeDots";
-
-const StyledConnector = styled.div`
-  height: 10px;
-  
-  ::before {
-    background-color: white;
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  ::after {
-    content: "";
-    position: absolute;
-    left: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-left: 10px solid white;
-  }
-`;
 
 interface Props {}
 
 export const Connector: FC<Props> = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [config, setConfig] = useState<ConModel>({
+  const [config, setConfig] = useState<ConModel & { height: number }>({
     top: 150,
     left: 200,
     width: 100,
+    height: 100,
     rotate: 0,
   });
   const [isActive, setIsActive] = useState(false);
@@ -45,7 +20,9 @@ export const Connector: FC<Props> = () => {
       return { ...prev, top, left };
     });
   };
-
+  // console.log(width);
+  // console.log(height);
+  const { width, height } = config;
   return (
     <Dragable
       top={config.top}
@@ -53,18 +30,30 @@ export const Connector: FC<Props> = () => {
       onUpdatePosition={handleUpdatePosition}
       onMouseDown={() => setIsActive(true)}
     >
-      <StyledConnector
-        ref={ref}
+      <svg
+        overflow={"visible"}
+        // transform={"rotate(90, 0, 0)"}
+        width={width}
+        height={height}
         style={{
-          width: config.width,
-          transform: `rotate(${config.rotate}deg)`,
-          transformOrigin: "left",
+          border: "1px solid white",
         }}
       >
-        {isActive && (
-          <ConResizeDots connectorRef={ref} onSetConfig={setConfig} />
-        )}
-      </StyledConnector>
+        {/* <text x={"50%"} y={"50%"} fill={"white"} textAnchor={"middle"} dominantBaseline={"middle"} style={{width: 100}} width={100}>Test</text> */}
+        <polyline
+          points={`0,0 ${width}, ${height}`}
+          stroke={"white"}
+          strokeWidth={4}
+        ></polyline>
+        <polygon
+          points={`${width},${height} ${width - 2},${height - 15} ${
+            width - 15
+          },${height - 2}`}
+          fill={"white"}
+        ></polygon>
+        {/* <polygon points={"100,100 100,85 85,100"} fill={"white"}></polygon> */}
+        {isActive && <RectResizeDots onSetConfig={setConfig as any} />}
+      </svg>
     </Dragable>
   );
 };

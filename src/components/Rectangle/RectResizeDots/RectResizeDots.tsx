@@ -30,6 +30,7 @@ export const RectResizeDots: FC<Props> = ({ onSetConfig }) => {
       });
     } else if (placement === "bottom-left") {
       onSetConfig((prev) => {
+        console.log(prev);
         return {
           ...prev,
           width: prev.width - e.movementX,
@@ -52,39 +53,27 @@ export const RectResizeDots: FC<Props> = ({ onSetConfig }) => {
     <>
       <ResizeDot
         onResize={(e) => handleResize(e, "top-left")}
-        style={{
-          top: 0,
-          left: 0,
-          transform: "translate(-50%, -50%)",
-          cursor: "nw-resize",
-        }}
+        cx={0}
+        cy={0}
+        style={{ cursor: "nw-resize" }}
       />
       <ResizeDot
         onResize={(e) => handleResize(e, "top-right")}
-        style={{
-          top: 0,
-          right: 0,
-          transform: "translate(50%, -50%)",
-          cursor: "ne-resize",
-        }}
+        cx={"100%"}
+        cy={0}
+        style={{ cursor: "ne-resize" }}
       />
       <ResizeDot
         onResize={(e) => handleResize(e, "bottom-left")}
-        style={{
-          bottom: 0,
-          left: 0,
-          transform: "translate(-50%, 50%)",
-          cursor: "sw-resize",
-        }}
+        cx={0}
+        cy={"100%"}
+        style={{ cursor: "sw-resize" }}
       />
       <ResizeDot
         onResize={(e) => handleResize(e, "bottom-right")}
-        style={{
-          bottom: 0,
-          right: 0,
-          transform: "translate(50%, 50%)",
-          cursor: "se-resize",
-        }}
+        cx={"100%"}
+        cy={"100%"}
+        style={{ cursor: "se-resize" }}
       />
     </>
   );
