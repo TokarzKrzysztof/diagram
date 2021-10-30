@@ -12,9 +12,10 @@ const StyledResizeDot = styled.span<{}>`
 interface Props {
   onResize: (e: MouseEvent) => void;
   style: React.CSSProperties;
+  dotRef?: React.RefObject<HTMLSpanElement>;
 }
 
-export const ResizeDot: FC<Props> = ({ onResize, style }) => {
+export const ResizeDot: FC<Props> = ({ onResize, style, dotRef }) => {
   const [isMouseDown, setIsMouseDown] = useState(false);
 
   useEffect(() => {
@@ -41,6 +42,7 @@ export const ResizeDot: FC<Props> = ({ onResize, style }) => {
 
   return (
     <StyledResizeDot
+      ref={dotRef}
       onMouseDown={(e) => {
         e.stopPropagation();
         setIsMouseDown(true);

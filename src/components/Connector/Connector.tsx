@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import styled from "styled-components";
 import { ConModel } from "../../models/ConModel";
 import { Dragable } from "../shared/Dragable/Dragable";
@@ -6,7 +6,7 @@ import { ConResizeDots } from "./ConResizeDots/ConResizeDots";
 
 const StyledConnector = styled.div`
   height: 10px;
-
+  
   ::before {
     background-color: white;
     content: "";
@@ -31,8 +31,9 @@ const StyledConnector = styled.div`
 interface Props {}
 
 export const Connector: FC<Props> = () => {
+  const ref = useRef<HTMLDivElement>(null);
   const [config, setConfig] = useState<ConModel>({
-    top: 100,
+    top: 150,
     left: 200,
     width: 100,
     rotate: 0,
@@ -44,7 +45,7 @@ export const Connector: FC<Props> = () => {
       return { ...prev, top, left };
     });
   };
-  console.log(config.rotate)
+
   return (
     <Dragable
       top={config.top}
@@ -53,9 +54,16 @@ export const Connector: FC<Props> = () => {
       onMouseDown={() => setIsActive(true)}
     >
       <StyledConnector
-        style={{ width: config.width, transform: `rotate(${config.rotate}deg)`, transformOrigin: "left" }}
+        ref={ref}
+        style={{
+          width: config.width,
+          transform: `rotate(${config.rotate}deg)`,
+          transformOrigin: "left",
+        }}
       >
-        {isActive && <ConResizeDots onSetConfig={setConfig} />}
+        {isActive && (
+          <ConResizeDots connectorRef={ref} onSetConfig={setConfig} />
+        )}
       </StyledConnector>
     </Dragable>
   );
