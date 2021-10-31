@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { RectModel } from "../../../models/RectModel";
+import { Rectangle } from "../../../types/Rectangle";
 import { ResizeDot } from "../../shared/ResizeDot/ResizeDot";
 import { RectDotPlacement } from "../types";
 
 interface Props {
-  onSetConfig: React.Dispatch<React.SetStateAction<RectModel>>;
+  onSetConfig: React.Dispatch<React.SetStateAction<Rectangle>>;
 }
 
 export const RectResizeDots: FC<Props> = ({ onSetConfig }) => {

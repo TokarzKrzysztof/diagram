@@ -1,7 +1,7 @@
 import { FC, useRef, useState } from "react";
 import styled from "styled-components";
-import { RectModel } from "../../models/RectModel";
-import { Dragable } from "../shared/Dragable/Dragable";
+import { Rectangle } from "../../types";
+import { Dragable } from "../shared";
 import { RectResizeDots } from "./RectResizeDots/RectResizeDots";
 import { TextNode } from "./TextNode/TextNode";
 
@@ -11,9 +11,9 @@ const StyledRectangle = styled.div`
 
 interface Props {}
 
-export const Rectangle: FC<Props> = () => {
+export const RectangleNode: FC<Props> = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const [config, setConfig] = useState<RectModel>({
+  const [config, setConfig] = useState<Rectangle>({
     top: 0,
     left: 0,
     width: 100,
@@ -36,8 +36,8 @@ export const Rectangle: FC<Props> = () => {
 
   return (
     <Dragable
-      top={config.top}
-      left={config.left}
+      y={config.top}
+      x={config.left}
       onUpdatePosition={handleUpdatePosition}
       onMouseDown={() => setIsActive(true)}
     >

@@ -1,4 +1,4 @@
-export interface RectModel {
+export interface Rectangle {
   top: number;
   left: number;
   width: number;

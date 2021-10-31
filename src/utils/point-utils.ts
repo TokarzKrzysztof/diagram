@@ -1,7 +1,4 @@
-export interface Point {
-  x: number;
-  y: number;
-}
+import { Point } from "../types";
 
 export const getDistance = (a: Point, b: Point): number => {
   const differenceX = a.x - b.x;

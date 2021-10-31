@@ -1,12 +1,12 @@
-import { Connector } from "./components/Connector/Connector";
+import { ConnectorNode } from "./components/ConnectorNode/ConnectorNode";
 import { Net } from "./components/Net/Net";
-import { Rectangle } from "./components/Rectangle/Rectange";
+import { RectangleNode } from "./components/RectangleNode/RectangleNode";
 
 function App() {
   return (
     <Net>
-      <Rectangle />
-      <Connector />
+      <RectangleNode />
+      <ConnectorNode />
     </Net>
   );
 }

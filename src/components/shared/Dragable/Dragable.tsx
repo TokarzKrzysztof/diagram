@@ -1,22 +1,17 @@
 import { FC, ReactNode, useEffect, useState } from "react";
-import styled from "styled-components";
-
-const StyledDiv = styled.div`
-  position: absolute;
-`;
 
 interface Props {
   children: ReactNode;
-  top: number;
-  left: number;
-  onUpdatePosition: (top: number, left: number) => void;
-  onMouseDown?: React.MouseEventHandler<HTMLDivElement>;
+  y: number;
+  x: number;
+  onUpdatePosition: (y: number, x: number) => void;
+  onMouseDown?: React.MouseEventHandler<SVGElement>;
 }
 
 export const Dragable: FC<Props> = ({
   children,
-  top,
-  left,
+  y,
+  x,
   onUpdatePosition,
   onMouseDown,
 }) => {
@@ -35,25 +30,25 @@ export const Dragable: FC<Props> = ({
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (isMouseDown) onUpdatePosition(top + e.movementY, left + e.movementX);
+      if (isMouseDown) onUpdatePosition(y + e.movementY, x + e.movementX);
     };
 
     window.addEventListener("mousemove", handler);
     return () => {
       window.removeEventListener("mousemove", handler);
     };
-  }, [isMouseDown, left, top]);
+  }, [isMouseDown, x, y]);
 
   return (
-    <StyledDiv
-      style={{ top, left, cursor: "move" }}
-      // onMouseMove={(e) => isMouseDown && handleDrag(e)}
+    <g
+      y={y}
+      x={x}
       onMouseDown={(e) => {
         setIsMouseDown(true);
         onMouseDown && onMouseDown(e);
       }}
     >
       {children}
-    </StyledDiv>
+    </g>
   );
 };
