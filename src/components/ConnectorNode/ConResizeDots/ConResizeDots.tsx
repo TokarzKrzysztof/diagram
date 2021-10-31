@@ -1,8 +1,6 @@
-import { FC, useRef } from "react";
-import { Connector, Point } from "../../../types";
-import { getDistance, getAngle } from "../../../utils";
+import { FC } from "react";
+import { Connector } from "../../../types";
 import { ResizeDot } from "../../shared";
-import { ConDotPlacement } from "../types";
 
 interface Props {
   config: Connector;
@@ -10,7 +8,7 @@ interface Props {
 }
 
 export const ConResizeDots: FC<Props> = ({ onSetConfig, config }) => {
-  const handleResize = (e: MouseEvent, placement: ConDotPlacement) => {
+  const handleResize = (e: MouseEvent, placement: "start" | "end") => {
     if (placement === "start") {
       onSetConfig((prev) => {
         return {
