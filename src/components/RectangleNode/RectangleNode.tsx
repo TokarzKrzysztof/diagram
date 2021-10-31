@@ -1,18 +1,12 @@
-import { FC, useRef, useState } from "react";
-import styled from "styled-components";
+import { FC, useState } from "react";
 import { Rectangle } from "../../types";
 import { Dragable } from "../shared";
 import { RectResizeDots } from "./RectResizeDots/RectResizeDots";
 import { TextNode } from "./TextNode/TextNode";
 
-const StyledRectangle = styled.div`
-  border: 1px solid white;
-`;
-
 interface Props {}
 
 export const RectangleNode: FC<Props> = () => {
-  const ref = useRef<HTMLDivElement>(null);
   const [config, setConfig] = useState<Rectangle>({
     y: 0,
     x: 0,
@@ -35,10 +29,7 @@ export const RectangleNode: FC<Props> = () => {
   };
 
   return (
-    <Dragable
-      onMove={handleMove}
-      onMouseDown={() => setIsActive(true)}
-    >
+    <Dragable onMove={handleMove} onMouseDown={() => setIsActive(true)}>
       <svg
         x={config.x}
         y={config.y}
@@ -47,6 +38,14 @@ export const RectangleNode: FC<Props> = () => {
         overflow={"visible"}
       >
         <rect width={"100%"} height={"100%"} stroke={"white"} strokeWidth={2} />
+        {/* <text fill={"white"} x={"50%"} y={"50%"}>Test</text> */}
+          <TextNode
+            value={config.text}
+            isEditing={isEditText}
+            onAccept={handleTextEdit}
+          />
+        <foreignObject fill={"white"} width={"100%"} height={"100%"}>
+        </foreignObject>
         {isActive && <RectResizeDots config={config} onSetConfig={setConfig} />}
       </svg>
       {/* <StyledRectangle
@@ -55,11 +54,7 @@ export const RectangleNode: FC<Props> = () => {
         onDoubleClick={() => setIsEditText(!isEditText)}
         >
         </StyledRectangle> */}
-      {/* <TextNode
-          value={config.text}
-          isEditing={isEditText}
-          onAccept={handleTextEdit}
-        /> */}
+      {/*  */}
     </Dragable>
   );
 };

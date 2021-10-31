@@ -13,8 +13,8 @@ const StyledTextarea = styled.textarea`
   font-size: 14px;
 `;
 
-const StyledSpan = styled.span`
-  white-space: pre-wrap;
+const StyledSpan = styled.div`
+  /* white-space: pre-wrap;
   word-break: break-all;
   color: white;
   position: absolute;
@@ -22,11 +22,11 @@ const StyledSpan = styled.span`
   align-items: center;
   justify-content: center;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
   width: 75%;
   height: 75%;
-  overflow: hidden;
+  /* overflow: hidden; */
   font-size: 14px;
 `;
 
@@ -49,5 +49,5 @@ export const TextNode: FC<Props> = ({ isEditing, value, onAccept }) => {
     );
   }
 
-  return <StyledSpan>{value}</StyledSpan>;
+  return <text x={"50%"} y={"50%"} fill={"white"}>{value}</text>;
 };
