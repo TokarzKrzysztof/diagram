@@ -45,7 +45,6 @@ export const ConnectorNode: FC<Props> = () => {
       </marker>
       {/* line */}
       <line
-        style={{ cursor: "move" }}
         x1={start.x}
         y1={start.y}
         x2={end.x}

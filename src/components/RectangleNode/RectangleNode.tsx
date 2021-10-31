@@ -14,8 +14,8 @@ interface Props {}
 export const RectangleNode: FC<Props> = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [config, setConfig] = useState<Rectangle>({
-    top: 0,
-    left: 0,
+    y: 0,
+    x: 0,
     width: 100,
     height: 50,
     text: "Test",
@@ -23,9 +23,9 @@ export const RectangleNode: FC<Props> = () => {
   const [isActive, setIsActive] = useState(false);
   const [isEditText, setIsEditText] = useState(false);
 
-  const handleUpdatePosition = (top: number, left: number) => {
+  const handleUpdatePosition = (y: number, x: number) => {
     setConfig((prev) => {
-      return { ...prev, top, left };
+      return { ...prev, y, x };
     });
   };
 
@@ -36,24 +36,31 @@ export const RectangleNode: FC<Props> = () => {
 
   return (
     <Dragable
-      y={config.top}
-      x={config.left}
+      y={config.y}
+      x={config.x}
       onUpdatePosition={handleUpdatePosition}
       onMouseDown={() => setIsActive(true)}
     >
-      <StyledRectangle
+      {/* <StyledRectangle
         ref={ref}
         style={{ width: config.width, height: config.height }}
         onDoubleClick={() => setIsEditText(!isEditText)}
-      >
-        <TextNode
+        >
+        </StyledRectangle> */}
+      {/* <TextNode
           value={config.text}
           isEditing={isEditText}
           onAccept={handleTextEdit}
-        />
-
-        {isActive && <RectResizeDots onSetConfig={setConfig} />}
-      </StyledRectangle>
+        /> */}
+      <rect
+        x={config.x}
+        y={config.y}
+        width={config.width}
+        height={config.height}
+        stroke={"white"}
+        strokeWidth={2}
+      />
+      {isActive && <RectResizeDots config={config} onSetConfig={setConfig} />}
     </Dragable>
   );
 };

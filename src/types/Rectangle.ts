@@ -1,6 +1,6 @@
 export interface Rectangle {
-  top: number;
-  left: number;
+  y: number;
+  x: number;
   width: number;
   height: number;
   text: string;

@@ -5,74 +5,77 @@ import { RectDotPlacement } from "../types";
 
 interface Props {
   onSetConfig: React.Dispatch<React.SetStateAction<Rectangle>>;
+  config: Rectangle;
 }
 
-export const RectResizeDots: FC<Props> = ({ onSetConfig }) => {
+export const RectResizeDots: FC<Props> = ({ onSetConfig, config }) => {
+  const oneIfNegative = (value: number) => (value < 1 ? 1 : value);
+
   const handleResize = (e: MouseEvent, placement: RectDotPlacement) => {
     if (placement === "top-left") {
       onSetConfig((prev) => {
         return {
           ...prev,
-          width: prev.width - e.movementX,
-          height: prev.height - e.movementY,
-          top: prev.top + e.movementY,
-          left: prev.left + e.movementX,
+          width: oneIfNegative(prev.width - e.movementX),
+          height: oneIfNegative(prev.height - e.movementY),
+          y: prev.y + e.movementY,
+          x: prev.x + e.movementX,
         };
       });
     } else if (placement === "top-right") {
       onSetConfig((prev) => {
         return {
           ...prev,
-          width: prev.width + e.movementX,
-          height: prev.height - e.movementY,
-          top: prev.top + e.movementY,
+          width: oneIfNegative(prev.width + e.movementX),
+          height: oneIfNegative(prev.height - e.movementY),
+          y: prev.y + e.movementY,
         };
       });
     } else if (placement === "bottom-left") {
       onSetConfig((prev) => {
-        console.log(prev);
         return {
           ...prev,
-          width: prev.width - e.movementX,
-          height: prev.height + e.movementY,
-          left: prev.left + e.movementX,
+          width: oneIfNegative(prev.width - e.movementX),
+          height: oneIfNegative(prev.height + e.movementY),
+          x: prev.x + e.movementX,
         };
       });
     } else {
       onSetConfig((prev) => {
         return {
           ...prev,
-          width: prev.width + e.movementX,
-          height: prev.height + e.movementY,
+          width: oneIfNegative(prev.width + e.movementX),
+          height: oneIfNegative(prev.height + e.movementY),
         };
       });
     }
   };
 
+  const { x, y, width, height } = config;
   return (
     <>
       <ResizeDot
         onResize={(e) => handleResize(e, "top-left")}
-        cx={0}
-        cy={0}
+        cx={x}
+        cy={y}
         style={{ cursor: "nw-resize" }}
       />
       <ResizeDot
         onResize={(e) => handleResize(e, "top-right")}
-        cx={"100%"}
-        cy={0}
+        cx={x + width}
+        cy={y}
         style={{ cursor: "ne-resize" }}
       />
       <ResizeDot
         onResize={(e) => handleResize(e, "bottom-left")}
-        cx={0}
-        cy={"100%"}
+        cx={x}
+        cy={y + height}
         style={{ cursor: "sw-resize" }}
       />
       <ResizeDot
         onResize={(e) => handleResize(e, "bottom-right")}
-        cx={"100%"}
-        cy={"100%"}
+        cx={x + width}
+        cy={y + height}
         style={{ cursor: "se-resize" }}
       />
     </>

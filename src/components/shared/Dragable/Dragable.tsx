@@ -43,6 +43,7 @@ export const Dragable: FC<Props> = ({
     <g
       y={y}
       x={x}
+      style={{ cursor: "move" }}
       onMouseDown={(e) => {
         setIsMouseDown(true);
         onMouseDown && onMouseDown(e);
