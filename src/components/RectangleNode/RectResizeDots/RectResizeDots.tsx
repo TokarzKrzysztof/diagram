@@ -56,26 +56,26 @@ export const RectResizeDots: FC<Props> = ({ onSetConfig, config }) => {
     <>
       <ResizeDot
         onResize={(e) => handleResize(e, "top-left")}
-        cx={x}
-        cy={y}
+        cx={0}
+        cy={0}
         style={{ cursor: "nw-resize" }}
       />
       <ResizeDot
         onResize={(e) => handleResize(e, "top-right")}
-        cx={x + width}
-        cy={y}
+        cx={"100%"}
+        cy={0}
         style={{ cursor: "ne-resize" }}
       />
       <ResizeDot
         onResize={(e) => handleResize(e, "bottom-left")}
-        cx={x}
-        cy={y + height}
+        cx={0}
+        cy={"100%"}
         style={{ cursor: "sw-resize" }}
       />
       <ResizeDot
         onResize={(e) => handleResize(e, "bottom-right")}
-        cx={x + width}
-        cy={y + height}
+        cx={"100%"}
+        cy={"100%"}
         style={{ cursor: "se-resize" }}
       />
     </>

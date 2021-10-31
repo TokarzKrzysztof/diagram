@@ -2,17 +2,13 @@ import { FC, ReactNode, useEffect, useState } from "react";
 
 interface Props {
   children: ReactNode;
-  y: number;
-  x: number;
-  onUpdatePosition: (y: number, x: number) => void;
+  onMove: (e: MouseEvent) => void;
   onMouseDown?: React.MouseEventHandler<SVGElement>;
 }
 
 export const Dragable: FC<Props> = ({
   children,
-  y,
-  x,
-  onUpdatePosition,
+  onMove,
   onMouseDown,
 }) => {
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -30,19 +26,17 @@ export const Dragable: FC<Props> = ({
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (isMouseDown) onUpdatePosition(y + e.movementY, x + e.movementX);
+      if (isMouseDown) onMove(e);
     };
 
     window.addEventListener("mousemove", handler);
     return () => {
       window.removeEventListener("mousemove", handler);
     };
-  }, [isMouseDown, x, y]);
+  }, [isMouseDown]);
 
   return (
     <g
-      y={y}
-      x={x}
       style={{ cursor: "move" }}
       onMouseDown={(e) => {
         setIsMouseDown(true);

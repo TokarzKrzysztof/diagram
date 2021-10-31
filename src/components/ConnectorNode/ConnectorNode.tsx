@@ -12,26 +12,26 @@ export const ConnectorNode: FC<Props> = () => {
   });
   const [isActive, setIsActive] = useState(false);
 
-  const handleUpdatePosition = (y: number, x: number) => {
-    const diffX = config.start.x - config.end.x;
-    const diffY = config.start.y - config.end.y;
+  const handleMove = (e: MouseEvent) => {
     setConfig((prev) => {
+      const { start, end } = prev;
       return {
         ...prev,
-        start: { x, y },
-        end: { x: x - diffX, y: y - diffY },
+        start: {
+          x: start.x + e.movementX,
+          y: start.y + e.movementY,
+        },
+        end: {
+          x: end.x + e.movementX,
+          y: end.y + e.movementY,
+        },
       };
     });
   };
 
   const { start, end } = config;
   return (
-    <Dragable
-      y={start.y}
-      x={start.x}
-      onUpdatePosition={handleUpdatePosition}
-      onMouseDown={() => setIsActive(true)}
-    >
+    <Dragable onMove={handleMove} onMouseDown={() => setIsActive(true)}>
       {/* arrow */}
       <marker
         refY={2}
