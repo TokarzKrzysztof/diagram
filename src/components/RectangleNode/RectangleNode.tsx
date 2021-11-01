@@ -12,7 +12,7 @@ export const RectangleNode: FC<Props> = () => {
     x: 0,
     width: 100,
     height: 50,
-    text: "Test",
+    text: "Test dlugi dlugi dlugi dlugi dlugi",
   });
   const [isActive, setIsActive] = useState(false);
   const [isEditText, setIsEditText] = useState(false);
@@ -36,25 +36,16 @@ export const RectangleNode: FC<Props> = () => {
         width={config.width}
         height={config.height}
         overflow={"visible"}
+        onDoubleClick={() => setIsEditText(!isEditText)}
       >
         <rect width={"100%"} height={"100%"} stroke={"white"} strokeWidth={2} />
-        {/* <text fill={"white"} x={"50%"} y={"50%"}>Test</text> */}
-          <TextNode
-            value={config.text}
-            isEditing={isEditText}
-            onAccept={handleTextEdit}
-          />
-        <foreignObject fill={"white"} width={"100%"} height={"100%"}>
-        </foreignObject>
+        <TextNode
+          value={config.text}
+          isEditing={isEditText}
+          onAccept={handleTextEdit}
+        />
         {isActive && <RectResizeDots config={config} onSetConfig={setConfig} />}
       </svg>
-      {/* <StyledRectangle
-        ref={ref}
-        style={{ width: config.width, height: config.height }}
-        onDoubleClick={() => setIsEditText(!isEditText)}
-        >
-        </StyledRectangle> */}
-      {/*  */}
     </Dragable>
   );
 };

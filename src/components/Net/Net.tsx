@@ -16,7 +16,7 @@ interface Props {
 
 export const Net: FC<Props> = ({ children }) => {
   return (
-    <svg overflow={"auto"} width={400} height={300} style={{ border: "1px solid white" }}>
+    <svg overflow={"auto"} width={600} height={800} style={{ border: "1px solid white" }}>
       {children}
     </svg>
   );
