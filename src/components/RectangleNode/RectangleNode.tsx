@@ -1,26 +1,40 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
+import { useRectangles } from "../../store";
 import { Rectangle } from "../../types";
 import { Dragable } from "../shared";
 import { RectResizeDots } from "./RectResizeDots/RectResizeDots";
 import { TextNode } from "./TextNode/TextNode";
 
-interface Props {}
+interface Props {
+  data: Rectangle;
+  onSetActive: () => void;
+}
 
-export const RectangleNode: FC<Props> = () => {
-  const [config, setConfig] = useState<Rectangle>({
-    y: 0,
-    x: 0,
-    width: 100,
-    height: 50,
-    text: "Test dlugi dlugi dlugi dlugi dlugi",
-  });
-  const [isActive, setIsActive] = useState(false);
+export const RectangleNode: FC<Props> = ({ data, onSetActive }) => {
+  // const { updateRect } = useRectangles();
+  const ref = useRef<SVGSVGElement>(null);
+  const [config, setConfig] = useState<Rectangle>(data);
   const [isEditText, setIsEditText] = useState(false);
 
+  useEffect(() => {
+    console.log("setconfig")
+    setConfig(data);
+  }, [data.isActive]);
+
+  useEffect(() => {
+    // console.log("zmiana")
+  }, [data.isActive])
+
+  // useEffect(() => {
+  //   updateRect(data.id, config);
+  // }, [data.isActive]);
+
   const handleMove = (e: MouseEvent) => {
-    setConfig((prev) => {
-      return { ...prev, y: prev.y + e.movementY, x: prev.x + e.movementX };
-    });
+    // const rect = ref.current as SVGSVGElement;
+    setConfig({...config, y: config.y + e.movementY, x: config.x + e.movementX })
+    // setConfig((prev) => {
+    //   return { ...prev, y: prev.y + e.movementY, x: prev.x + e.movementX };
+    // });
   };
 
   const handleTextEdit = (value: string) => {
@@ -29,8 +43,9 @@ export const RectangleNode: FC<Props> = () => {
   };
 
   return (
-    <Dragable onMove={handleMove} onMouseDown={() => setIsActive(true)}>
+    <Dragable onMove={handleMove} onMouseDown={onSetActive}>
       <svg
+        ref={ref}
         x={config.x}
         y={config.y}
         width={config.width}
@@ -44,7 +59,9 @@ export const RectangleNode: FC<Props> = () => {
           isEditing={isEditText}
           onAccept={handleTextEdit}
         />
-        {isActive && <RectResizeDots config={config} onSetConfig={setConfig} />}
+        {config.isActive && (
+          <RectResizeDots config={config} onSetConfig={setConfig} />
+        )}
       </svg>
     </Dragable>
   );

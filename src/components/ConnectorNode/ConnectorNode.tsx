@@ -1,16 +1,21 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { useConnectors } from "../../store";
 import { Connector } from "../../types";
 import { Dragable } from "../shared";
 import { ConResizeDots } from "./ConResizeDots/ConResizeDots";
 
-interface Props {}
+interface Props {
+  data: Connector;
+}
 
-export const ConnectorNode: FC<Props> = () => {
-  const [config, setConfig] = useState<Connector>({
-    start: { x: 100, y: 100 },
-    end: { x: 200, y: 100 },
-  });
-  const [isActive, setIsActive] = useState(false);
+export const ConnectorNode: FC<Props> = ({ data }) => {
+  const { updateCon } = useConnectors();
+  const [config, setConfig] = useState<Connector>(data);
+
+  useEffect(() => {
+    setConfig(data);
+    return () => updateCon(data.id, config);
+  }, [data]);
 
   const handleMove = (e: MouseEvent) => {
     setConfig((prev) => {
@@ -31,7 +36,10 @@ export const ConnectorNode: FC<Props> = () => {
 
   const { start, end } = config;
   return (
-    <Dragable onMove={handleMove} onMouseDown={() => setIsActive(true)}>
+    <Dragable
+      onMove={handleMove}
+      onMouseDown={() => setConfig({ ...config, isActive: true })}
+    >
       {/* arrow */}
       <marker
         refY={2}
@@ -51,10 +59,12 @@ export const ConnectorNode: FC<Props> = () => {
         y2={end.y}
         stroke={"white"}
         strokeWidth={4}
-        marker-end="url(#arrow)"
+        markerEnd="url(#arrow)"
       ></line>
 
-      {isActive && <ConResizeDots config={config} onSetConfig={setConfig} />}
+      {config.isActive && (
+        <ConResizeDots config={config} onSetConfig={setConfig} />
+      )}
     </Dragable>
   );
 };

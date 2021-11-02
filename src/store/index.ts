@@ -1,2 +1,2 @@
-export { useRectangles } from "./RectStore/hook";
-export { useConnectors } from "./ConStore/hook";
+export * from "./RectStore/hook";
+export * from "./ConStore/hook";

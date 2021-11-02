@@ -1,4 +1,5 @@
 import { BehaviorSubject } from "rxjs";
+import { rectanglesMock } from "../../mock";
 import { Rectangle } from "../../types";
 
 export const initialState: Rectangle[] = [];
@@ -6,7 +7,7 @@ export const store = new BehaviorSubject<Rectangle[]>(initialState);
 
 const getFromStorage = (): Rectangle[] => {
   const json = localStorage.getItem("rectangles");
-  return json ? JSON.parse(json) : [];
+  return json ? JSON.parse(json) : rectanglesMock;
 };
 
 const updateStore = (state: Rectangle[]) => {
@@ -18,16 +19,16 @@ export const actions = {
   initRect: () => store.next(getFromStorage()),
   addRect: (data: Rectangle) => store.next([...store.value, data]),
   removeRect: (id: string) => {
-    const state = { ...store.value };
+    const state = [...store.value];
     updateStore(state.filter((x) => x.id !== id));
   },
   markAllRectAsUnactive: () => {
-    const state = { ...store.value };
+    const state = [...store.value];
     state.forEach((x) => (x.isActive = false));
     updateStore(state);
   },
   updateRect: (id: string, data: Rectangle) => {
-    const state = { ...store.value };
+    const state = [...store.value];
     const index = state.findIndex((x) => x.id === id);
     if (index > -1) {
       state[index] = data;
