@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { Connector } from "../../types";
 import { actions, store } from "./store";
 
-export const useConnectors = () => {
+// one hook causes rerenders
+export const useConnectorsActions = () => {
+  return { ...actions };
+};
+
+export const useConnectorsState = () => {
   const [state, setState] = useState<Connector[]>(store.value);
 
   useEffect(() => {
@@ -12,6 +17,5 @@ export const useConnectors = () => {
 
   return {
     connectors: state,
-    ...actions,
   };
 };

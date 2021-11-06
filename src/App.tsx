@@ -1,29 +1,41 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 import { ConnectorNode } from "./components/ConnectorNode/ConnectorNode";
 import { Net } from "./components/Net/Net";
 import { RectangleNode } from "./components/RectangleNode/RectangleNode";
-import { useConnectors, useRectangles } from "./store";
-import { Rectangle } from "./types";
+import {
+  useConnectorsActions,
+  useConnectorsState,
+  useRectanglesActions,
+  useRectanglesState,
+} from "./store";
+import { Connector, Rectangle } from "./types";
 
 function App() {
-  const { initCon, updateCon, markAllConAsUnactive, connectors } =
-    useConnectors();
-  const { initRect, updateRect, markAllRectAsUnactive, rectangles } =
-    useRectangles();
+  const { connectors } = useConnectorsState();
+  const { rectangles } = useRectanglesState();
 
-  const deactivateAll = () => {
-    markAllConAsUnactive();
-    markAllRectAsUnactive();
-  };
+  const { initRect, updateRect, markAllRectAsUnactive } =
+    useRectanglesActions();
+  const { initCon, updateCon, markAllConAsUnactive } = useConnectorsActions();
 
   useEffect(() => {
     initCon();
     initRect();
   }, []);
 
-  const handleSetActive = useCallback((rect: Rectangle) => {
+  const deactivateAll = () => {
+    markAllConAsUnactive();
+    markAllRectAsUnactive();
+  };
+
+  const handleSetRectActive = useCallback((el: Rectangle) => {
     deactivateAll();
-    updateRect(rect.id, { ...rect, isActive: true });
+    updateRect(el.id, { ...el, isActive: true });
+  }, []);
+
+  const handleSetConActive = useCallback((el: Connector) => {
+    deactivateAll();
+    updateCon(el.id, { ...el, isActive: true });
   }, []);
 
   return (
@@ -32,10 +44,18 @@ function App() {
       <div style={{}}>
         <Net>
           {rectangles.map((rect) => (
-            <RectangleNode onSetActive={handleSetActive} key={rect.id} data={rect} />
+            <RectangleNode
+              onSetActive={handleSetRectActive}
+              key={rect.id}
+              data={rect}
+            />
           ))}
           {connectors.map((con) => (
-            <ConnectorNode key={con.id} data={con} />
+            <ConnectorNode
+              onSetActive={handleSetConActive}
+              key={con.id}
+              data={con}
+            />
           ))}
         </Net>
       </div>

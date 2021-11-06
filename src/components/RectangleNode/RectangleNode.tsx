@@ -1,6 +1,6 @@
 import React from "react";
 import { FC, useEffect, useRef, useState } from "react";
-import { useRectangles } from "../../store";
+import { useRectanglesActions } from "../../store";
 import { Rectangle } from "../../types";
 import { getNumberAtrributes } from "../../utils";
 import { Dragable } from "../shared";
@@ -14,20 +14,18 @@ interface Props {
 
 export const RectangleNode: FC<Props> = React.memo<Props>(
   ({ data, onSetActive }) => {
-    const { updateRect } = useRectangles();
+    const { updateRect } = useRectanglesActions();
     const ref = useRef<SVGSVGElement>(null);
     const [isEditText, setIsEditText] = useState(false);
 
     const handleUpdateRect = (rect: Rectangle) => {
+      if (!data.isActive) return;
       updateRect(rect.id, rect);
     };
-    console.log("render");
 
     const handleMove = (e: MouseEvent) => {
       const [x, y] = getNumberAtrributes(ref, ["x", "y"]);
-      data.x = x + e.movementX;
-      data.y = y + e.movementY;
-      handleUpdateRect(data);
+      handleUpdateRect({ ...data, x: x + e.movementX, y: y + e.movementY });
     };
 
     const handleTextEdit = (value: string) => {
@@ -59,8 +57,8 @@ export const RectangleNode: FC<Props> = React.memo<Props>(
           />
           {data.isActive && (
             <RectResizeDots
-              onUpdateRect={handleUpdateRect}
               rectSvgRef={ref}
+              onUpdateRect={handleUpdateRect}
               data={data}
             />
           )}

@@ -24,7 +24,12 @@ export const actions = {
   },
   markAllConAsUnactive: () => {
     const state = [...store.value];
-    state.forEach((x) => (x.isActive = false));
+    state.forEach((x, i) => {
+      if (x.isActive) {
+        // make rerender
+        state[i] = { ...x, isActive: false };
+      }
+    });
     updateStore(state);
   },
   updateCon: (id: string, data: Connector) => {

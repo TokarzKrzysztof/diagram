@@ -4,39 +4,27 @@ import { Connector } from "../../../types";
 import { ResizeDot } from "../../shared";
 
 interface Props {
-  config: Connector;
-  onSetConfig: React.Dispatch<React.SetStateAction<Connector>>;
+  data: Connector;
+  onUpdateCon: (data: Connector) => void;
 }
 
-export const ConResizeDots: FC<Props> = ({ onSetConfig, config }) => {
+export const ConResizeDots: FC<Props> = ({ data, onUpdateCon }) => {
   const { getMouseToSvgRelativePosition } = useSVGRoot();
 
   const handleResize = (e: MouseEvent, placement: "start" | "end") => {
     const { x, y } = getMouseToSvgRelativePosition(e);
+    const connector = { ...data };
+
     if (placement === "start") {
-      onSetConfig((prev) => {
-        return {
-          ...prev,
-          start: {
-            x,
-            y,
-          },
-        };
-      });
+      connector.start = { x, y };
     } else {
-      onSetConfig((prev) => {
-        return {
-          ...prev,
-          end: {
-            x,
-            y,
-          },
-        };
-      });
+      connector.end = { x, y };
     }
+
+    onUpdateCon(connector);
   };
 
-  const { start, end } = config;
+  const { start, end } = data;
   return (
     <>
       <ResizeDot

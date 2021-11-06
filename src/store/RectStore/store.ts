@@ -24,14 +24,18 @@ export const actions = {
   },
   markAllRectAsUnactive: () => {
     const state = [...store.value];
-    state.forEach((x) => (x.isActive = false));
+    state.forEach((x, i) => {
+      if (x.isActive) {
+        // make rerender
+        state[i] = { ...x, isActive: false };
+      }
+    });
     updateStore(state);
   },
   updateRect: (id: string, data: Rectangle) => {
     const state = [...store.value];
     const index = state.findIndex((x) => x.id === id);
     if (index > -1) {
-      console.log(state[index] === data); 
       state[index] = data;
       updateStore(state);
     }

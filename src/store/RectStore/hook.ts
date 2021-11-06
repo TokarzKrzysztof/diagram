@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { Rectangle } from "../../types";
 import { actions, store } from "./store";
 
-export const useRectangles = () => {
+// one hook causes rerenders
+export const useRectanglesActions = () => {
+  return { ...actions };
+};
+
+export const useRectanglesState = () => {
   const [state, setState] = useState<Rectangle[]>(store.value);
 
   useEffect(() => {
@@ -12,6 +17,5 @@ export const useRectangles = () => {
 
   return {
     rectangles: state,
-    ...actions,
   };
 };

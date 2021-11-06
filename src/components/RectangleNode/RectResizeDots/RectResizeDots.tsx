@@ -2,7 +2,6 @@ import { FC } from "react";
 import { Rectangle } from "../../../types/Rectangle";
 import { getNumberAtrributes } from "../../../utils";
 import { ResizeDot } from "../../shared/ResizeDot/ResizeDot";
-import { RectDotPlacement } from "../types";
 
 interface Props {
   rectSvgRef: React.RefObject<SVGSVGElement>;
@@ -17,7 +16,10 @@ export const RectResizeDots: FC<Props> = ({
 }) => {
   const oneIfNegative = (value: number) => (value < 1 ? 1 : value);
 
-  const handleResize = (e: MouseEvent, placement: RectDotPlacement) => {
+  const handleResize = (
+    e: MouseEvent,
+    placement: "top-left" | "top-right" | "bottom-left" | "bottom-right"
+  ) => {
     const [x, y, width, height] = getNumberAtrributes(rectSvgRef, [
       "x",
       "y",
