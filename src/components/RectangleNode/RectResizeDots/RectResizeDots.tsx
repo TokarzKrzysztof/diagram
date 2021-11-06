@@ -1,57 +1,61 @@
 import { FC } from "react";
 import { Rectangle } from "../../../types/Rectangle";
+import { getNumberAtrributes } from "../../../utils";
 import { ResizeDot } from "../../shared/ResizeDot/ResizeDot";
 import { RectDotPlacement } from "../types";
 
 interface Props {
-  onSetConfig: React.Dispatch<React.SetStateAction<Rectangle>>;
-  config: Rectangle;
+  rectSvgRef: React.RefObject<SVGSVGElement>;
+  onUpdateRect: (data: Rectangle) => void;
+  data: Rectangle;
 }
 
-export const RectResizeDots: FC<Props> = ({ onSetConfig, config }) => {
+export const RectResizeDots: FC<Props> = ({
+  rectSvgRef,
+  onUpdateRect,
+  data,
+}) => {
   const oneIfNegative = (value: number) => (value < 1 ? 1 : value);
 
   const handleResize = (e: MouseEvent, placement: RectDotPlacement) => {
+    const [x, y, width, height] = getNumberAtrributes(rectSvgRef, [
+      "x",
+      "y",
+      "width",
+      "height",
+    ]);
+
     if (placement === "top-left") {
-      onSetConfig((prev) => {
-        return {
-          ...prev,
-          width: oneIfNegative(prev.width - e.movementX),
-          height: oneIfNegative(prev.height - e.movementY),
-          y: prev.y + e.movementY,
-          x: prev.x + e.movementX,
-        };
+      onUpdateRect({
+        ...data,
+        width: oneIfNegative(width - e.movementX),
+        height: oneIfNegative(height - e.movementY),
+        y: y + e.movementY,
+        x: x + e.movementX,
       });
     } else if (placement === "top-right") {
-      onSetConfig((prev) => {
-        return {
-          ...prev,
-          width: oneIfNegative(prev.width + e.movementX),
-          height: oneIfNegative(prev.height - e.movementY),
-          y: prev.y + e.movementY,
-        };
+      onUpdateRect({
+        ...data,
+        width: oneIfNegative(width + e.movementX),
+        height: oneIfNegative(height - e.movementY),
+        y: y + e.movementY,
       });
     } else if (placement === "bottom-left") {
-      onSetConfig((prev) => {
-        return {
-          ...prev,
-          width: oneIfNegative(prev.width - e.movementX),
-          height: oneIfNegative(prev.height + e.movementY),
-          x: prev.x + e.movementX,
-        };
+      onUpdateRect({
+        ...data,
+        width: oneIfNegative(width - e.movementX),
+        height: oneIfNegative(height + e.movementY),
+        x: x + e.movementX,
       });
     } else {
-      onSetConfig((prev) => {
-        return {
-          ...prev,
-          width: oneIfNegative(prev.width + e.movementX),
-          height: oneIfNegative(prev.height + e.movementY),
-        };
+      onUpdateRect({
+        ...data,
+        width: oneIfNegative(width + e.movementX),
+        height: oneIfNegative(height + e.movementY),
       });
     }
   };
 
-  const { x, y, width, height } = config;
   return (
     <>
       <ResizeDot

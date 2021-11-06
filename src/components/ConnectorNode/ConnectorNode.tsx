@@ -1,6 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useConnectors } from "../../store";
 import { Connector } from "../../types";
+import { getNumberAtrributes } from "../../utils";
 import { Dragable } from "../shared";
 import { ConResizeDots } from "./ConResizeDots/ConResizeDots";
 
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export const ConnectorNode: FC<Props> = ({ data }) => {
+  const ref = useRef<SVGLineElement>(null);
   const { updateCon } = useConnectors();
   const [config, setConfig] = useState<Connector>(data);
 
@@ -18,19 +20,23 @@ export const ConnectorNode: FC<Props> = ({ data }) => {
   }, [data]);
 
   const handleMove = (e: MouseEvent) => {
-    setConfig((prev) => {
-      const { start, end } = prev;
-      return {
-        ...prev,
-        start: {
-          x: start.x + e.movementX,
-          y: start.y + e.movementY,
-        },
-        end: {
-          x: end.x + e.movementX,
-          y: end.y + e.movementY,
-        },
-      };
+    const [startX, startY, endX, endY] = getNumberAtrributes(ref, [
+      "x1",
+      "y1",
+      "x2",
+      "y2"
+    ]);
+
+    setConfig({
+      ...config,
+      start: {
+        x: startX + e.movementX,
+        y: startY + e.movementY,
+      },
+      end: {
+        x: endX + e.movementX,
+        y: endY + e.movementY,
+      },
     });
   };
 
@@ -53,6 +59,7 @@ export const ConnectorNode: FC<Props> = ({ data }) => {
       </marker>
       {/* line */}
       <line
+        ref={ref}
         x1={start.x}
         y1={start.y}
         x2={end.x}

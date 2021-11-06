@@ -1,68 +1,71 @@
+import React from "react";
 import { FC, useEffect, useRef, useState } from "react";
 import { useRectangles } from "../../store";
 import { Rectangle } from "../../types";
+import { getNumberAtrributes } from "../../utils";
 import { Dragable } from "../shared";
 import { RectResizeDots } from "./RectResizeDots/RectResizeDots";
 import { TextNode } from "./TextNode/TextNode";
 
 interface Props {
   data: Rectangle;
-  onSetActive: () => void;
+  onSetActive: (data: Rectangle) => void;
 }
 
-export const RectangleNode: FC<Props> = ({ data, onSetActive }) => {
-  // const { updateRect } = useRectangles();
-  const ref = useRef<SVGSVGElement>(null);
-  const [config, setConfig] = useState<Rectangle>(data);
-  const [isEditText, setIsEditText] = useState(false);
+export const RectangleNode: FC<Props> = React.memo<Props>(
+  ({ data, onSetActive }) => {
+    const { updateRect } = useRectangles();
+    const ref = useRef<SVGSVGElement>(null);
+    const [isEditText, setIsEditText] = useState(false);
 
-  useEffect(() => {
-    console.log("setconfig")
-    setConfig(data);
-  }, [data.isActive]);
+    const handleUpdateRect = (rect: Rectangle) => {
+      updateRect(rect.id, rect);
+    };
+    console.log("render");
 
-  useEffect(() => {
-    // console.log("zmiana")
-  }, [data.isActive])
+    const handleMove = (e: MouseEvent) => {
+      const [x, y] = getNumberAtrributes(ref, ["x", "y"]);
+      data.x = x + e.movementX;
+      data.y = y + e.movementY;
+      handleUpdateRect(data);
+    };
 
-  // useEffect(() => {
-  //   updateRect(data.id, config);
-  // }, [data.isActive]);
+    const handleTextEdit = (value: string) => {
+      setIsEditText(false);
+      handleUpdateRect({ ...data, text: value });
+    };
 
-  const handleMove = (e: MouseEvent) => {
-    // const rect = ref.current as SVGSVGElement;
-    setConfig({...config, y: config.y + e.movementY, x: config.x + e.movementX })
-    // setConfig((prev) => {
-    //   return { ...prev, y: prev.y + e.movementY, x: prev.x + e.movementX };
-    // });
-  };
-
-  const handleTextEdit = (value: string) => {
-    setConfig({ ...config, text: value });
-    setIsEditText(false);
-  };
-
-  return (
-    <Dragable onMove={handleMove} onMouseDown={onSetActive}>
-      <svg
-        ref={ref}
-        x={config.x}
-        y={config.y}
-        width={config.width}
-        height={config.height}
-        overflow={"visible"}
-        onDoubleClick={() => setIsEditText(!isEditText)}
-      >
-        <rect width={"100%"} height={"100%"} stroke={"white"} strokeWidth={2} />
-        <TextNode
-          value={config.text}
-          isEditing={isEditText}
-          onAccept={handleTextEdit}
-        />
-        {config.isActive && (
-          <RectResizeDots config={config} onSetConfig={setConfig} />
-        )}
-      </svg>
-    </Dragable>
-  );
-};
+    return (
+      <Dragable onMove={handleMove} onMouseDown={() => onSetActive(data)}>
+        <svg
+          ref={ref}
+          x={data.x}
+          y={data.y}
+          width={data.width}
+          height={data.height}
+          overflow={"visible"}
+          onDoubleClick={() => setIsEditText(!isEditText)}
+        >
+          <rect
+            width={"100%"}
+            height={"100%"}
+            stroke={"white"}
+            strokeWidth={2}
+          />
+          <TextNode
+            value={data.text}
+            isEditing={isEditText}
+            onAccept={handleTextEdit}
+          />
+          {data.isActive && (
+            <RectResizeDots
+              onUpdateRect={handleUpdateRect}
+              rectSvgRef={ref}
+              data={data}
+            />
+          )}
+        </svg>
+      </Dragable>
+    );
+  }
+);

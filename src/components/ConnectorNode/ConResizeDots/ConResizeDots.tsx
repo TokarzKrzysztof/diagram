@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useSVGRoot } from "../../../store";
 import { Connector } from "../../../types";
 import { ResizeDot } from "../../shared";
 
@@ -8,14 +9,17 @@ interface Props {
 }
 
 export const ConResizeDots: FC<Props> = ({ onSetConfig, config }) => {
+  const { getMouseToSvgRelativePosition } = useSVGRoot();
+
   const handleResize = (e: MouseEvent, placement: "start" | "end") => {
+    const { x, y } = getMouseToSvgRelativePosition(e);
     if (placement === "start") {
       onSetConfig((prev) => {
         return {
           ...prev,
           start: {
-            x: e.offsetX,
-            y: e.offsetY,
+            x,
+            y,
           },
         };
       });
@@ -24,8 +28,8 @@ export const ConResizeDots: FC<Props> = ({ onSetConfig, config }) => {
         return {
           ...prev,
           end: {
-            x: e.offsetX,
-            y: e.offsetY,
+            x,
+            y,
           },
         };
       });
