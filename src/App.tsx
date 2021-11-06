@@ -23,22 +23,23 @@ function App() {
   return (
     <>
       <button style={{ display: "block" }}>Save</button>
-      <Net>
-        {rectangles.map((rect) => (
-          <RectangleNode
-            onSetActive={() => {
-              console.log("active")
-              deactivateAll();
-              updateRect(rect.id, { ...rect, isActive: true });
-            }}
-            key={rect.id}
-            data={rect}
-          />
-        ))}
-        {connectors.map((con) => (
-          <ConnectorNode key={con.id} data={con} />
-        ))}
-      </Net>
+      <div style={{ padding: 200 }}>
+        <Net>
+          {rectangles.map((rect) => (
+            <RectangleNode
+              onSetActive={() => {
+                deactivateAll();
+                updateRect(rect.id, { ...rect, isActive: true });
+              }}
+              key={rect.id}
+              data={rect}
+            />
+          ))}
+          {connectors.map((con) => (
+            <ConnectorNode key={con.id} data={con} />
+          ))}
+        </Net>
+      </div>
     </>
   );
 }

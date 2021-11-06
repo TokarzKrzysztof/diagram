@@ -1,22 +1,26 @@
-import { FC, ReactNode } from "react";
-import styled from "styled-components";
-import background from "../../assets/img/background.jpg";
-
-// const StyledNet = styled.div`
-//   position: relative;
-//   width: 400px;
-//   height: 300px;
-//   border: 1px solid white;
-//   /* background-image: url(${background}); */
-// `;
+import { FC, ReactNode, useEffect, useRef } from "react";
+import { useSVGRoot } from "../../store";
 
 interface Props {
   children: ReactNode;
 }
 
 export const Net: FC<Props> = ({ children }) => {
+  const { setSVG } = useSVGRoot();
+  const ref = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    if (ref.current) setSVG(ref.current);
+  }, [ref.current]);
+
   return (
-    <svg overflow={"auto"} width={600} height={800} style={{ border: "1px solid white" }}>
+    <svg
+      ref={ref}
+      overflow={"auto"}
+      width={600}
+      height={800}
+      style={{ border: "1px solid white" }}
+    >
       {children}
     </svg>
   );
