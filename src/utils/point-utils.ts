@@ -1,4 +1,5 @@
 import { Point } from "../types";
+import _ from "lodash";
 
 export const getDistance = (a: Point, b: Point): number => {
   const differenceX = a.x - b.x;
@@ -31,4 +32,22 @@ export const getAngle = (a: Point, b: Point) => {
   // if (quarter === "bottom-right") return result;
   // if (quarter === "top-left") return result + 180;
   // return result + 270;
+};
+
+export const getNearestPoint = (
+  from: Point,
+  range: { startX: number; endX: number; startY: number; endY: number }
+): Point => {
+  const { startX, endX, startY, endY } = range;
+
+  const differences: Point = {
+    x: _.min([Math.abs(from.x - startX), Math.abs(from.x - endX)]) as number,
+    y: _.min([Math.abs(from.y - startY), Math.abs(from.y - endY)]) as number,
+  };
+
+  const result = { ...from };
+  result.x = from.x >= endX ? from.x - differences.x : from.x + differences.x;
+  result.y = from.y >= endY ? from.y - differences.y : from.y + differences.y;
+
+  return result;
 };
