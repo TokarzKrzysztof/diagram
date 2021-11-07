@@ -12,13 +12,12 @@ export const ConResizeDots: FC<Props> = ({ data, onUpdateCon }) => {
   const { getMouseToSvgRelativePosition } = useSVGRoot();
 
   const handleResize = (e: MouseEvent, placement: "start" | "end") => {
-    const { x, y } = getMouseToSvgRelativePosition(e);
     const connector = { ...data };
 
     if (placement === "start") {
-      connector.start = { x, y };
+      connector.start = getMouseToSvgRelativePosition(e);
     } else {
-      connector.end = { x, y };
+      connector.end = getMouseToSvgRelativePosition(e);
     }
 
     onUpdateCon(connector);

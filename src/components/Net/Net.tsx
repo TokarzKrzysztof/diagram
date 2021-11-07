@@ -10,18 +10,22 @@ export const Net: FC<Props> = ({ children }) => {
   const ref = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    if (ref.current) setSVG(ref.current);
+    if (ref.current) {
+      setSVG(ref.current);
+    }
   }, [ref.current]);
 
+  const box = ref.current ? ref.current.getBBox() : null;
   return (
+    // <div style={{ width: 1000, height: 1000, overflow: "auto" }}>
     <svg
       ref={ref}
-      overflow={"auto"}
-      width={600}
-      height={800}
-      style={{ border: "1px solid white" }}
+      width={1000}
+      height={ 800}
+      style={{ border: "1px solid white", overflow: "auto" }}
     >
       {children}
     </svg>
+    // </div>
   );
 };
