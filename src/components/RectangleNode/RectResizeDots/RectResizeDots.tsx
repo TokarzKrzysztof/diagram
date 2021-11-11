@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { useConnectorsActions, useConnectorsUtils } from "../../../store";
 import { Rectangle } from "../../../types/Rectangle";
 import { getNumberAtrributes } from "../../../utils";
 import { ResizeDot } from "../../shared/ResizeDot/ResizeDot";

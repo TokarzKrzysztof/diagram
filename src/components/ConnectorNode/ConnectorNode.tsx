@@ -1,11 +1,6 @@
 import React from "react";
-import { FC, useEffect, useRef, useState } from "react";
-import {
-  useConnectorsActions,
-  useConnectorsState,
-  useRectanglesActions,
-  useRectanglesUtils,
-} from "../../store";
+import { FC, useRef } from "react";
+import { useConnectorsActions, useRectanglesUtils } from "../../store";
 import { Connector } from "../../types";
 import { getNumberAtrributes } from "../../utils";
 import { Dragable } from "../shared";

@@ -1,7 +1,6 @@
 import { BehaviorSubject } from "rxjs";
 import { rectanglesMock } from "../../mock";
 import { Rectangle } from "../../types";
-import { singleOrError } from "../../utils";
 
 export const initialState: Rectangle[] = [];
 export const store = new BehaviorSubject<Rectangle[]>(initialState);

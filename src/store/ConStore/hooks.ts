@@ -9,6 +9,10 @@ export const useConnectorsUtils = () => {
     return con;
   };
 
+  const updateConnectedConnectorPosition = () => {
+    
+  }
+
   return { getConnectedConnector };
 };
 
