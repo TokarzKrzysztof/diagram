@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { FC } from "react";
-import { useRectanglesActions, useSVGRoot } from "../../../store";
+import { useRectanglesUtils, useSVGRoot } from "../../../store";
 import { Connector } from "../../../types";
 import { getNearestPoint } from "../../../utils";
 import { ResizeDot } from "../../shared";
@@ -12,7 +12,8 @@ interface Props {
 
 export const ConResizeDots: FC<Props> = ({ data, onUpdateCon }) => {
   const { getMouseToSvgRelativePosition } = useSVGRoot();
-  const { findRectangleUnderMouse, attachConnector, detachConnector } = useRectanglesActions();
+  const { findRectangleUnderMouse, attachConnector, detachConnector, getRectanglePointsAsArray } =
+    useRectanglesUtils();
 
   const handleResize = (e: MouseEvent, placement: "start" | "end") => {
     const connector = { ...data };
@@ -20,18 +21,14 @@ export const ConResizeDots: FC<Props> = ({ data, onUpdateCon }) => {
     const rectToConnect = findRectangleUnderMouse(relativeMousePosition);
 
     if (rectToConnect) {
-      const rectCoordinateRanges = {
-        startX: rectToConnect.x,
-        endX: rectToConnect.x + rectToConnect.width,
-        startY: rectToConnect.y,
-        endY: rectToConnect.y + rectToConnect.height,
-      };
+      const rectPoints = getRectanglePointsAsArray(rectToConnect.id);
+
       if (placement === "start") {
-        const point = getNearestPoint(connector.end, rectCoordinateRanges);
+        const point = getNearestPoint(connector.end, rectPoints);
         connector.start = point;
         attachConnector(rectToConnect.id, connector.id, "start");
       } else {
-        const point = getNearestPoint(connector.start, rectCoordinateRanges);
+        const point = getNearestPoint(connector.start, rectPoints);
         connector.end = point;
         attachConnector(rectToConnect.id, connector.id, "end");
       }

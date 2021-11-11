@@ -1,3 +1,3 @@
-export * from "./RectStore/hook";
-export * from "./ConStore/hook";
-export * from "./SVGRootStore/hook";
+export * from "./RectStore/hooks";
+export * from "./ConStore/hooks";
+export * from "./SVGRootStore/hooks";

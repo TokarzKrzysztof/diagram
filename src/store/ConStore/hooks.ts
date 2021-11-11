@@ -3,14 +3,18 @@ import { Connector } from "../../types";
 import { singleOrError } from "../../utils";
 import { actions, store } from "./store";
 
-// one hook causes rerenders
-export const useConnectorsActions = () => {
+export const useConnectorsUtils = () => {
   const getConnectedConnector = (conId: string) => {
     const con = singleOrError(store.value, (x) => x.id === conId);
     return con;
   };
 
-  return { ...actions, getConnectedConnector };
+  return { getConnectedConnector };
+};
+
+// one hook causes rerenders
+export const useConnectorsActions = () => {
+  return actions;
 };
 
 export const useConnectorsState = () => {

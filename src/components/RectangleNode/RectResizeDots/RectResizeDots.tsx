@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useConnectorsActions } from "../../../store";
+import { useConnectorsActions, useConnectorsUtils } from "../../../store";
 import { Rectangle } from "../../../types/Rectangle";
 import { getNumberAtrributes } from "../../../utils";
 import { ResizeDot } from "../../shared/ResizeDot/ResizeDot";
@@ -21,7 +21,8 @@ type DotPlacement =
   | "left-middle";
 
 export const RectResizeDots: FC<Props> = ({ rectSvgRef, onUpdateRect, data }) => {
-  const { getConnectedConnector, updateCon } = useConnectorsActions();
+  const { updateCon } = useConnectorsActions();
+  const { getConnectedConnector } = useConnectorsUtils();
   const oneIfNegative = (value: number) => (value < 1 ? 1 : value);
 
   const handleResize = (e: MouseEvent, placement: DotPlacement) => {

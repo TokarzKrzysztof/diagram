@@ -1,11 +1,30 @@
 import { useEffect, useState } from "react";
-import { Connector, Point, Rectangle, RectConnector } from "../../types";
+import { Point, Rectangle } from "../../types";
 import { actions, store } from "./store";
 import _ from "lodash";
 import { singleOrError } from "../../utils/utils";
 
-// one hook causes rerenders
-export const useRectanglesActions = () => {
+export const useRectanglesUtils = () => {
+  const getRectanglePoints = (rectId: string): Record<string, Point> => {
+    const { x, y, width, height } = singleOrError(store.value, (x) => x.id === rectId);
+
+    return {
+      topLeft: { x, y },
+      topMiddle: { x: x + width / 2, y },
+      topRight: { x: x + width, y },
+      rightMiddle: { x: x + width, y: y + height / 2 },
+      bottomRight: { x: x + width, y: y + height },
+      bottomMiddle: { x: x + width / 2, y: y + height },
+      bottomLeft: { x, y: y + height },
+      leftMiddle: { x, y: y + height / 2 },
+    };
+  };
+
+  const getRectanglePointsAsArray = (rectId: string) => {
+    const points = getRectanglePoints(rectId);
+    return Object.values(points);
+  };
+
   const getRectanglesCoordinateRange = () => {
     const rects = store.value;
     const result = rects.map((rect) => {
@@ -39,7 +58,6 @@ export const useRectanglesActions = () => {
     const rect = singleOrError(store.value, (x) => x.id === rectId);
     if (rect.connectors.some((x) => x.conId === conId)) return;
     rect.connectors.push({ conId, position });
-    console.log("attach");
     actions.updateRect(rect.id, rect);
   };
 
@@ -50,18 +68,23 @@ export const useRectanglesActions = () => {
 
     if (connectedRect) {
       connectedRect.connectors = connectedRect.connectors.filter((x) => x.conId !== conId);
-      console.log("detach");
       actions.updateRect(connectedRect.id, connectedRect);
     }
   };
 
   return {
-    ...actions,
     getRectanglesCoordinateRange,
     findRectangleUnderMouse,
     attachConnector,
     detachConnector,
+    getRectanglePoints,
+    getRectanglePointsAsArray,
   };
+};
+
+// one hook causes rerenders
+export const useRectanglesActions = () => {
+  return actions;
 };
 
 export const useRectanglesState = () => {

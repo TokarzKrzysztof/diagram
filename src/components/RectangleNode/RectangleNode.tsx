@@ -1,6 +1,11 @@
 import React from "react";
 import { FC, useEffect, useRef, useState } from "react";
-import { useConnectorsActions, useRectanglesActions } from "../../store";
+import {
+  useConnectorsActions,
+  useConnectorsUtils,
+  useRectanglesActions,
+  useRectanglesUtils,
+} from "../../store";
 import { Rectangle } from "../../types";
 import { getNumberAtrributes } from "../../utils";
 import { Dragable } from "../shared";
@@ -13,8 +18,10 @@ interface Props {
 }
 
 export const RectangleNode: FC<Props> = React.memo<Props>(({ data, onSetActive }) => {
+  const { getRectanglePointsAsArray } = useRectanglesUtils();
   const { updateRect } = useRectanglesActions();
-  const { updateCon, getConnectedConnector } = useConnectorsActions();
+  const { getConnectedConnector } = useConnectorsUtils();
+  const { updateCon } = useConnectorsActions();
   const ref = useRef<SVGSVGElement>(null);
   const [isEditText, setIsEditText] = useState(false);
 
@@ -39,6 +46,10 @@ export const RectangleNode: FC<Props> = React.memo<Props>(({ data, onSetActive }
 
       updateCon(con.id, con);
     });
+  };
+
+  const moveConnectors = () => {
+    const points = getRectanglePointsAsArray(data.id);
   };
 
   const handleTextEdit = (value: string) => {

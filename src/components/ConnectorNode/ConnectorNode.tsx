@@ -1,6 +1,11 @@
 import React from "react";
 import { FC, useEffect, useRef, useState } from "react";
-import { useConnectorsActions, useConnectorsState, useRectanglesActions } from "../../store";
+import {
+  useConnectorsActions,
+  useConnectorsState,
+  useRectanglesActions,
+  useRectanglesUtils,
+} from "../../store";
 import { Connector } from "../../types";
 import { getNumberAtrributes } from "../../utils";
 import { Dragable } from "../shared";
@@ -13,7 +18,7 @@ interface Props {
 
 export const ConnectorNode: FC<Props> = React.memo<Props>(({ data, onSetActive }) => {
   const { updateCon } = useConnectorsActions();
-  const { detachConnector } = useRectanglesActions();
+  const { detachConnector } = useRectanglesUtils();
   const ref = useRef<SVGLineElement>(null);
 
   const handleUpdateCon = (con: Connector) => {
