@@ -1,6 +1,6 @@
 import React from "react";
 import { FC, useEffect, useRef, useState } from "react";
-import { useConnectorsActions, useConnectorsState } from "../../store";
+import { useConnectorsActions, useConnectorsState, useRectanglesActions } from "../../store";
 import { Connector } from "../../types";
 import { getNumberAtrributes } from "../../utils";
 import { Dragable } from "../shared";
@@ -11,67 +11,54 @@ interface Props {
   onSetActive: (data: Connector) => void;
 }
 
-export const ConnectorNode: FC<Props> = React.memo<Props>(
-  ({ data, onSetActive }) => {
-    const { updateCon } = useConnectorsActions();
-    const ref = useRef<SVGLineElement>(null);
+export const ConnectorNode: FC<Props> = React.memo<Props>(({ data, onSetActive }) => {
+  const { updateCon } = useConnectorsActions();
+  const { detachConnector } = useRectanglesActions();
+  const ref = useRef<SVGLineElement>(null);
 
-    const handleUpdateCon = (con: Connector) => {
-      if (!data.isActive) return;
-      updateCon(con.id, con);
-    };
+  const handleUpdateCon = (con: Connector) => {
+    if (!data.isActive) return;
+    updateCon(con.id, con);
+  };
 
-    const handleMove = (e: MouseEvent) => {
-      const [startX, startY, endX, endY] = getNumberAtrributes(ref, [
-        "x1",
-        "y1",
-        "x2",
-        "y2",
-      ]);
+  const handleMove = (e: MouseEvent) => {
+    const [startX, startY, endX, endY] = getNumberAtrributes(ref, ["x1", "y1", "x2", "y2"]);
 
-      handleUpdateCon({
-        ...data,
-        start: {
-          x: startX + e.movementX,
-          y: startY + e.movementY,
-        },
-        end: {
-          x: endX + e.movementX,
-          y: endY + e.movementY,
-        },
-      });
-    };
+    detachConnector(data.id, "start");
+    detachConnector(data.id, "end");
+    handleUpdateCon({
+      ...data,
+      start: {
+        x: startX + e.movementX,
+        y: startY + e.movementY,
+      },
+      end: {
+        x: endX + e.movementX,
+        y: endY + e.movementY,
+      },
+    });
+  };
 
-    const { start, end } = data;
-    return (
-      <Dragable onMove={handleMove} onMouseDown={() => onSetActive(data)}>
-        {/* arrow */}
-        <marker
-          refY={2}
-          refX={3}
-          markerWidth={6}
-          markerHeight={6}
-          id="arrow"
-          orient="auto"
-        >
-          <polygon points="0 0, 0 4, 4 2" fill={"white"} />
-        </marker>
-        {/* line */}
-        <line
-          ref={ref}
-          x1={start.x}
-          y1={start.y}
-          x2={end.x}
-          y2={end.y}
-          stroke={"white"}
-          strokeWidth={4}
-          markerEnd="url(#arrow)"
-        ></line>
+  const { start, end } = data;
+  return (
+    <Dragable onMove={handleMove} onMouseDown={() => onSetActive(data)}>
+      {/* arrow */}
+      <marker refY={2} refX={3} markerWidth={6} markerHeight={6} id="arrow" orient="auto">
+        <polygon points="0 0, 0 4, 4 2" fill={"white"} />
+      </marker>
+      {/* line */}
+      <line
+        ref={ref}
+        x1={start.x}
+        y1={start.y}
+        x2={end.x}
+        y2={end.y}
+        stroke={"white"}
+        strokeWidth={4}
+        markerEnd="url(#arrow)"
+      ></line>
 
-        {data.isActive && (
-          <ConResizeDots onUpdateCon={handleUpdateCon} data={data} />
-        )}
-      </Dragable>
-    );
-  }
-);
+      {data.isActive && <ConResizeDots onUpdateCon={handleUpdateCon} data={data} />}
+    </Dragable>
+  );
+});

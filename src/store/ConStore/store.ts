@@ -36,7 +36,7 @@ export const actions = {
     const state = [...store.value];
     const index = state.findIndex((x) => x.id === id);
     if (index > -1) {
-      state[index] = data;
+      state[index] = { ...data };
       updateStore(state);
     }
   },

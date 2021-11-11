@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { Connector } from "../../types";
+import { singleOrError } from "../../utils";
 import { actions, store } from "./store";
 
 // one hook causes rerenders
 export const useConnectorsActions = () => {
-  return { ...actions };
+  const getConnectedConnector = (conId: string) => {
+    const con = singleOrError(store.value, (x) => x.id === conId);
+    return con;
+  };
+
+  return { ...actions, getConnectedConnector };
 };
 
 export const useConnectorsState = () => {

@@ -10,6 +10,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 100,
     text: "First",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -19,6 +20,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Second",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -28,6 +30,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Third",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -37,6 +40,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Forth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -46,6 +50,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -55,6 +60,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -64,6 +70,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -73,6 +80,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -82,6 +90,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -91,6 +100,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -100,6 +110,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -109,6 +120,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -118,6 +130,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -127,6 +140,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -136,6 +150,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -145,6 +160,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -154,6 +170,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -163,6 +180,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -172,6 +190,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -181,6 +200,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -190,6 +210,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -199,6 +220,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -208,6 +230,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -217,6 +240,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -226,6 +250,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -235,6 +260,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -244,6 +270,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -253,6 +280,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -262,6 +290,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -271,6 +300,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -280,6 +310,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -289,6 +320,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -298,6 +330,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -307,6 +340,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -316,6 +350,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -325,6 +360,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -334,6 +370,7 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
   {
     id: v4(),
@@ -343,5 +380,6 @@ export const rectanglesMock: Rectangle[] = [
     height: 50,
     text: "Fifth",
     isActive: false,
+    connectors: [],
   },
 ];

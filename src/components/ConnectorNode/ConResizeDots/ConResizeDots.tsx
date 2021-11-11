@@ -12,7 +12,7 @@ interface Props {
 
 export const ConResizeDots: FC<Props> = ({ data, onUpdateCon }) => {
   const { getMouseToSvgRelativePosition } = useSVGRoot();
-  const { findRectangleUnderMouse } = useRectanglesActions();
+  const { findRectangleUnderMouse, attachConnector, detachConnector } = useRectanglesActions();
 
   const handleResize = (e: MouseEvent, placement: "start" | "end") => {
     const connector = { ...data };
@@ -29,15 +29,19 @@ export const ConResizeDots: FC<Props> = ({ data, onUpdateCon }) => {
       if (placement === "start") {
         const point = getNearestPoint(connector.end, rectCoordinateRanges);
         connector.start = point;
+        attachConnector(rectToConnect.id, connector.id, "start");
       } else {
         const point = getNearestPoint(connector.start, rectCoordinateRanges);
         connector.end = point;
+        attachConnector(rectToConnect.id, connector.id, "end");
       }
     } else {
       if (placement === "start") {
         connector.start = relativeMousePosition;
+        detachConnector(connector.id, "start");
       } else {
         connector.end = relativeMousePosition;
+        detachConnector(connector.id, "end");
       }
     }
 

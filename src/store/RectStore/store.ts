@@ -1,6 +1,7 @@
 import { BehaviorSubject } from "rxjs";
 import { rectanglesMock } from "../../mock";
 import { Rectangle } from "../../types";
+import { singleOrError } from "../../utils";
 
 export const initialState: Rectangle[] = [];
 export const store = new BehaviorSubject<Rectangle[]>(initialState);
@@ -36,7 +37,7 @@ export const actions = {
     const state = [...store.value];
     const index = state.findIndex((x) => x.id === id);
     if (index > -1) {
-      state[index] = data;
+      state[index] = { ...data };
       updateStore(state);
     }
   },
