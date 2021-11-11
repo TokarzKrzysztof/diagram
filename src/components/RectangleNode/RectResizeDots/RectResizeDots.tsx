@@ -7,6 +7,7 @@ import { ResizeDot } from "../../shared/ResizeDot/ResizeDot";
 interface Props {
   rectSvgRef: React.RefObject<SVGSVGElement>;
   onUpdateRect: (data: Rectangle) => void;
+  onMoveConnectedConnectors: (data: Rectangle) => void;
   data: Rectangle;
 }
 
@@ -20,9 +21,12 @@ type DotPlacement =
   | "bottom-left"
   | "left-middle";
 
-export const RectResizeDots: FC<Props> = ({ rectSvgRef, onUpdateRect, data }) => {
-  const { updateCon } = useConnectorsActions();
-  const { getConnectedConnector } = useConnectorsUtils();
+export const RectResizeDots: FC<Props> = ({
+  rectSvgRef,
+  onUpdateRect,
+  onMoveConnectedConnectors,
+  data,
+}) => {
   const oneIfNegative = (value: number) => (value < 1 ? 1 : value);
 
   const handleResize = (e: MouseEvent, placement: DotPlacement) => {
@@ -81,18 +85,7 @@ export const RectResizeDots: FC<Props> = ({ rectSvgRef, onUpdateRect, data }) =>
       });
     }
 
-    data.connectors.forEach(({ conId, position }) => {
-      const con = getConnectedConnector(conId);
-      if (position === "start") {
-        con.start.x += e.movementX;
-        con.start.y += e.movementY;
-      } else {
-        con.end.x += e.movementX;
-        con.end.y += e.movementY;
-      }
-
-      updateCon(con.id, con);
-    });
+    onMoveConnectedConnectors(data);
   };
 
   const showMiddleHorizontalDots = data.height >= 50;

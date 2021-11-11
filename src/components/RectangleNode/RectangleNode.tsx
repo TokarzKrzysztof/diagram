@@ -7,7 +7,7 @@ import {
   useRectanglesUtils,
 } from "../../store";
 import { Rectangle } from "../../types";
-import { getNumberAtrributes } from "../../utils";
+import { getNearestPoint, getNumberAtrributes } from "../../utils";
 import { Dragable } from "../shared";
 import { RectResizeDots } from "./RectResizeDots/RectResizeDots";
 import { TextNode } from "./TextNode/TextNode";
@@ -33,23 +33,24 @@ export const RectangleNode: FC<Props> = React.memo<Props>(({ data, onSetActive }
   const handleMove = (e: MouseEvent) => {
     const [x, y] = getNumberAtrributes(ref, ["x", "y"]);
     handleUpdateRect({ ...data, x: x + e.movementX, y: y + e.movementY });
+    handleMoveConnectedConnectors(data);
+  };
 
-    data.connectors.forEach(({ conId, position }) => {
+  const handleMoveConnectedConnectors = (rect: Rectangle) => {
+    const rectPoints = getRectanglePointsAsArray(rect.id);
+
+    rect.connectors.forEach(({ conId, position }) => {
       const con = getConnectedConnector(conId);
       if (position === "start") {
-        con.start.x += e.movementX;
-        con.start.y += e.movementY;
+        const nearestPoint = getNearestPoint(con.end, rectPoints);
+        con.start = nearestPoint;
       } else {
-        con.end.x += e.movementX;
-        con.end.y += e.movementY;
+        const nearestPoint = getNearestPoint(con.start, rectPoints);
+        con.end = nearestPoint;
       }
 
       updateCon(con.id, con);
     });
-  };
-
-  const moveConnectors = () => {
-    const points = getRectanglePointsAsArray(data.id);
   };
 
   const handleTextEdit = (value: string) => {
@@ -71,7 +72,12 @@ export const RectangleNode: FC<Props> = React.memo<Props>(({ data, onSetActive }
         <rect width={"100%"} height={"100%"} stroke={"white"} strokeWidth={2} />
         <TextNode value={data.text} isEditing={isEditText} onAccept={handleTextEdit} />
         {data.isActive && (
-          <RectResizeDots rectSvgRef={ref} onUpdateRect={handleUpdateRect} data={data} />
+          <RectResizeDots
+            rectSvgRef={ref}
+            onUpdateRect={handleUpdateRect}
+            data={data}
+            onMoveConnectedConnectors={handleMoveConnectedConnectors}
+          />
         )}
       </svg>
     </Dragable>
